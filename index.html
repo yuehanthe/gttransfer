@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <meta name="description" content="Search for classes that transfer to Georgia Tech!">
+        <title>gt transfer reverse search</title>
+        <!-- <link rel="icon" type="image/png" href="icon.png"> -->
+         <style>
+            * {
+                background-color: #222;
+                color: #ddd;
+                font-family: arial, sans-serif;
+            }
+
+            h1 {
+                text-align: center;
+            }
+
+            h2 {
+                text-align: center;
+            }
+
+            input {
+                border: none;
+                border-radius: 3px;
+                background-color: #444;
+            }
+
+            button {
+                border: none;
+                border-radius: 3px;
+                background-color: #444;
+            }
+
+            button:hover {
+                background-color: #777;
+            }
+
+            table {
+                border-collapse: collapse;
+                min-width: 320px;
+                max-width: 800px;
+                width: 100%;
+                margin: 0 auto;
+            }
+
+            th {
+                text-align: left;
+                border-bottom: 1px solid #ddd; 
+            }
+
+            tr:hover td {
+                background-color: #555;
+            }
+
+            .container {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 4px;
+                justify-content: center; 
+                margin-bottom: 1rem;
+            }
+         </style>
+    </head>
+    <body>
+        <h1>georgia tech transfer reverse search</h1>
+        <h2>search transfer/transient classes!</h2>
+        <div class = "container">
+            <span>subject: <input id = "subj"></span>
+            <span>course code: <input id = "num"></span>
+            <span>state: <input id = "state"></span>
+            <button id = "search">search</button>
+        </div>
+        <div class = "container">
+            <table style = "display: none" id = "table">
+                <thead>
+                    <tr>
+                        <th style="width: 100%;">school</th>
+                        <th>subject&nbsp</th>
+                        <th>code</th>
+                    </tr>
+                </thead>
+                <tbody id="results"></tbody>
+            </table>
+        </div>
+        <script src="data.js"></script>
+        <script>
+            document.getElementById("search").onclick = () => {
+                var subj = document.getElementById("subj").value.toUpperCase();
+                var num = document.getElementById("num").value;
+                var state = document.getElementById("state").value.toUpperCase();
+
+                var table = document.getElementById("results");
+                table.innerHTML = "";
+
+                for (var school of data.schools) {
+                    if (state.length != 0) if (school.state !== state) continue;
+                    for (var course of school.courses) {
+                        if (course.gt_subj === subj && course.gt_num === num) {
+                            var row = table.insertRow();
+                            row.insertCell().textContent = school.name;
+                            row.insertCell().textContent = course.ext_subj;
+                            row.insertCell().textContent = course.ext_num;
+                        }
+                    }
+                }
+                document.getElementById("table").style.display = "inline";
+            };
+        </script>
+    </body>
+</html>
