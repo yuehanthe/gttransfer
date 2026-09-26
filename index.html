@@ -98,7 +98,7 @@
                 for (var school of data.schools) {
                     if (state.length != 0) if (school.state !== state) continue;
                     for (var course of school.courses) {
-                        if ((course.gt_subj === subj || subj.length == 0) && (course.gt_num === num || num.length == 0)) {
+                        if ((course.gt_subj === subj || subj.length == 0) && (course.gt_num === num || num.length == 0) && (school.name !== course.ext_num)) {
                             var row = table.insertRow();
                             row.insertCell().textContent = school.name;
                             row.insertCell().textContent = course.ext_subj;
