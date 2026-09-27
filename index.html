@@ -16,14 +16,20 @@
 
             body {
                 background-color: #222;
+                display: flex; 
+                flex-direction: column;
+                margin-top: 0;
+                margin-bottom: 0;
+                height: 100dvh;
             }
 
             h1 {
                 text-align: center;
             }
-
+            
             h2 {
                 text-align: center;
+                margin-top: 0;
             }
 
             input {
@@ -72,6 +78,10 @@
                 gap: 4px;
                 justify-content: center; 
                 margin-bottom: 1rem;
+            }
+
+            .content {
+                flex-grow: 1;
             }
          </style>
     </head>
@@ -150,29 +160,36 @@
                 <tbody id="results"></tbody>
             </table>
         </div>
+        <div style = "flex-grow: 1"></div>
+        <p style = "text-align: right;" id = "update"></p>
         <script src="data.js"></script>
         <script>
             document.getElementById("search").onclick = () => {
-                var subj = document.getElementById("subj").value.toUpperCase();
-                var num = document.getElementById("num").value;
-                var state = document.getElementById("state").value;
+                const subj = document.getElementById("subj").value.toUpperCase();
+                const num = document.getElementById("num").value;
+                const state = document.getElementById("state").value;
 
-                var table = document.getElementById("results");
+                let table = document.getElementById("results");
                 table.innerHTML = "";
 
-                for (var school of data.schools) {
+                for (let school of data.schools) {
                     if (state.length != 0) if (school.state !== state) continue;
-                    for (var course of school.courses) {
+                    for (let course of school.courses) {
                         if ((course.gt_subj === subj || subj.length == 0) && (course.gt_num === num || num.length == 0) && (school.name !== course.ext_num)) {
-                            var row = table.insertRow();
-                            row.insertCell().textContent = school.name;
-                            row.insertCell().textContent = course.ext_subj;
-                            row.insertCell().textContent = course.ext_num;
+                            let row = table.insertRow();
+                            row.insertCell().textContent = school.name.toLowerCase();
+                            row.insertCell().textContent = course.ext_subj.toLowerCase();
+                            row.insertCell().textContent = course.ext_num.toLowerCase();
                         }
                     }
                 }
                 document.getElementById("table").style.display = "inline";
             };
+            const generated = "test";
+            document.addEventListener("DOMContentLoaded", () => {
+                document.getElementById("update").textContent = "last updated: " + data.generated_at.slice(0, 10);
+            });
+
         </script>
     </body>
 </html>
